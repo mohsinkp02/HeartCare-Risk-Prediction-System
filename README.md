@@ -1,88 +1,82 @@
 # HeartCare Risk Prediction System
 
-An end-to-end machine learning–based web application for predicting cardiovascular disease risk using lifestyle and health attributes, with verified deployment and consistent model integration.
-
-This is a production-ready implementation of the Heart Disease Risk Prediction system, transformed from a research prototype into an enterprise-grade solution.
+An end-to-end machine learning–based web application for predicting cardiovascular disease risk using lifestyle and health attributes.
 
 ## Key Features
 
-- **Microservices Architecture**: Separate Backend (FastAPI) and Frontend (Nginx) services.
-- **Production-Grade API**: Built with FastAPI, including auto-generated Swagger documentation.
-- **Robust Validation**: Pydantic schemas for strict input validation.
-- **Frontend Optimization**: Static asset serving via Nginx with optimized paths.
-- **Observability**: Prometheus metrics instrumentation for monitoring.
-- **Containerization**: Full Docker and Docker Compose support.
-- **CI/CD**: GitHub Actions workflow for automated testing and building.
-- **Testing**: Comprehensive unit and integration tests.
+- **FastAPI Backend**: Modern, high-performance web API.
+- **Machine Learning Integration**: Real-time risk prediction using a trained Random Forest model.
+- **Modern UI**: Clean, responsive interface for user data entry and results visualization.
+- **Git LFS**: Large model files managed via Git Large File Storage.
 
 ## Project Structure
 
 ```
 production_solution/
-├── app/                    # Backend Application Code
-│   ├── api/                # API Routes
-│   ├── core/               # Configuration & Logging
-│   ├── services/           # Business Logic (Preprocessing, Prediction)
-│   ├── schemas/            # Pydantic Models
-│   ├── tests/              # Unit & Integration Tests
-│   └── main.py             # Application Entrypoint
-├── frontend/               # Static Frontend Assets
-├── nginx/                  # Nginx Configuration
-├── model/                  # ML Model Files
-├── .github/                # CI/CD Workflows
-├── docker-compose.yml      # Orchestration
-├── Dockerfile              # Backend Container Definition
+├── app/                    # Application Source Code
+│   ├── api/                # API Route Definitions
+│   ├── core/               # App Configuration and Logging
+│   ├── models/             # Trained ML Models (LFS tracked)
+│   ├── schemas/            # Data Validation Schemas
+│   ├── services/           # Business Logic (Preprocessing & Prediction)
+│   ├── static/             # CSS, JavaScript, and Images
+│   ├── templates/          # HTML Templates
+│   └── main.py             # FastAPI Application Factory
+├── .gitattributes          # Git LFS Configuration
+├── .gitignore              # Git Ignore Rules
 ├── requirements.txt        # Python Dependencies
-└── prometheus.yml          # Monitoring Config
+└── run_app.py              # Application Entry Point
 ```
 
 ## Getting Started
 
 ### Prerequisites
 
-- Docker & Docker Compose
-- Python 3.9+ (for local dev)
+- Python 3.9+
+- [Git LFS](https://git-lfs.com/) (Required to download the model file)
 
-### Running with Docker (Recommended)
+### Installation
 
-1. **Build and Run**:
+1. **Clone the repository**:
    ```bash
-   cd production_solution
-   docker-compose up --build
+   git clone https://github.com/mohsinkp02/HeartCare-Risk-Prediction-System.git
+   cd HeartCare-Risk-Prediction-System
    ```
 
-2. **Access the Application**:
-   - **Frontend**: [http://localhost](http://localhost)
-   - **API Docs (Swagger)**: [http://localhost/docs](http://localhost/docs)
-   - **Prometheus Metrics**: [http://localhost:9090](http://localhost:9090)
+2. **Initialize Git LFS**:
+   ```bash
+   git lfs install
+   git lfs pull
+   ```
 
-### Running Locally (Dev Mode)
+3. **Set up a virtual environment**:
+   ```bash
+   python -m venv .venv
+   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+   ```
 
-1. **Install Dependencies**:
+4. **Install dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
 
-2. **Run Backend**:
-   ```bash
-   uvicorn app.main:app --reload
-   ```
-   The API will run at `http://localhost:8000`.
+### Running the Application
 
-3. **Run Frontend**:
-   You can serve the `frontend` directory using any static file server (e.g., Live Server in VS Code) or access `frontend/index.html` directly in your browser (note: some API calls might need CORS configuration if ports differ).
-
-## API Endpoints
-
-- `POST /api/v1/predict`: Predict heart disease risk.
-  - Body: JSON with patient data.
-- `GET /health`: Health check endpoint.
-- `GET /metrics`: Prometheus metrics.
-
-## Testing
-
-Run the test suite with pytest:
+Start the application using the runner script:
 
 ```bash
-python -m pytest app/tests/test_api.py
+python run_app.py
 ```
+
+The application will be available at [http://localhost:8000](http://localhost:8000).
+
+## Troubleshooting
+
+### Network Issues (Port 443)
+If you encounter "Failed to connect to github.com port 443" errors during push/pull:
+- Check if your firewall or antivirus (like Avast) is blocking Git.
+- Try temporarily disabling your antivirus shields or adding Git to the whitelist.
+- Alternatively, try using a mobile hotspot or a different network.
+
+## Deployment Note
+The model file (`app/models/heart_disease_model.pkl`) is stored using **Git LFS**. Ensure you have Git LFS installed to properly download the model when cloning.
