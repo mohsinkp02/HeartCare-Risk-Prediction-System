@@ -884,6 +884,39 @@
         });
       }
 
+      // Depression
+      if (params.get('Depression') === '1') {
+        factors.push({
+          title: 'Emotional Well-being',
+          value: 'Depression Indicator',
+          desc: 'Mental health significantly impacts physical heart health.',
+          critical: false,
+          tip: 'Regular exercise and therapy can improve both mood and heart health.'
+        });
+      }
+
+      // Arthritis
+      if (params.get('Arthritis') === '1') {
+        factors.push({
+          title: 'Chronic Condition',
+          value: 'Arthritis',
+          desc: 'Inflammation from arthritis can affect cardiovascular health.',
+          critical: false,
+          tip: 'Focus on low-impact activities like swimming to keep the heart healthy without straining joints.'
+        });
+      }
+
+      // Cancer History
+      if (params.get('Skin_Cancer') === '1' || params.get('Other_Cancer') === '1') {
+        factors.push({
+          title: 'Medical History',
+          value: 'Cancer Survivor',
+          desc: 'Prior health challenges require more careful cardiovascular monitoring.',
+          critical: false,
+          tip: 'Maintain regular follow-ups with your oncology and cardiology team.'
+        });
+      }
+
       if (factors.length === 0) return '';
 
       return `

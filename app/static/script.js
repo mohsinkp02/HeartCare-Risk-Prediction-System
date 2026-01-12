@@ -122,6 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const result = await response.json();
+            window.lastResult = result;
             showResult(result);
 
         } catch (error) {
@@ -213,14 +214,27 @@ function goToRecommendations() {
     // Gather key parameters for recommendation personalization
     const params = new URLSearchParams();
 
+    // 1. Pass the exact calculated probability
+    if (window.lastResult && window.lastResult.probability) {
+        params.append('risk', (window.lastResult.probability * 100).toFixed(1));
+    }
+
+    // 2. Selects and Inputs
     const fields = [
         'Age', 'BMI', 'Sex', 'Smoking', 'Diabetes',
-        'Alcohol', 'Fried_Potato', 'Fruit', 'Green_Vegetables', 'Exercise'
+        'Alcohol', 'Fried_Potato', 'Fruit', 'Green_Vegetables', 'Exercise', 'General_Health'
     ];
 
     fields.forEach(id => {
         const el = document.getElementById(id);
         if (el) params.append(id, el.value);
+    });
+
+    // 3. Checkboxes (Special handling)
+    const checkBoxes = ['Skin_Cancer', 'Other_Cancer', 'Depression', 'Arthritis'];
+    checkBoxes.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) params.append(id, el.checked ? "1" : "0");
     });
 
     window.location.href = `/recommendation/${predictedRiskLevel}?${params.toString()}`;

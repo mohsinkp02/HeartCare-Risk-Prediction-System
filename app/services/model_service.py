@@ -54,10 +54,10 @@ class ModelService:
 
     @staticmethod
     def _calculate_risk_level(prob: float):
-        if prob <= 0.30:
+        if prob <= 0.20:
             return 1, "Very Low"
-        elif prob <= 0.45:
-            return 2, "Low-Moderate"
+        elif prob <= 0.40:
+            return 2, "Low"
         elif prob <= 0.60:
             return 3, "Moderate"
         elif prob <= 0.80:
