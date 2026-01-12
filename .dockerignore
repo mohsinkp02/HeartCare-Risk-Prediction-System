@@ -1,0 +1,14 @@
+.venv
+__pycache__
+.git
+.gitignore
+.gitattributes
+Dockerfile
+.dockerignore
+README.md
+*.pkl
+*.pyc
+*.pyo
+*.pyd
+.db
+.DS_Store

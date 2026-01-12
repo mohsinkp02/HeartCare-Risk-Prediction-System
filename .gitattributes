@@ -1,0 +1,2 @@
+app/models/heart_disease_model.pkl filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
