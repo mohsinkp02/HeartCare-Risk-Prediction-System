@@ -110,8 +110,8 @@ __pycache__/
 .cache/
 
 # Model files (uncomment if you don't want to commit large model files)
-# *.pkl
-# *.h5
-# *.pb
-# *.pth
-# *.onnx
+*.pkl
+*.h5
+*.pb
+*.pth
+*.onnx
