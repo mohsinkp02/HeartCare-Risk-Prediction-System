@@ -14,7 +14,6 @@ pinned: false
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.109.0+-009688?style=for-the-badge&logo=fastapi&logoColor=white)
 ![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.4.0+-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 An end-to-end, production-grade machine learning application designed to predict cardiovascular disease risk using advanced health analytics. This system integrates a high-performance FastAPI backend with a modern, responsive web interface, providing real-time diagnostic insights based on clinical lifestyle parameters.
 
@@ -29,7 +28,7 @@ An end-to-end, production-grade machine learning application designed to predict
 - [Data Engineering & Features](#-data-engineering--features)
 - [Installation & Deployment](#-installation--deployment)
 - [API Documentation](#-api-documentation)
-- [License](#-license)
+- [License & Usage](#-license--usage)
 
 ---
 
@@ -191,9 +190,11 @@ The system provides a fully documented RESTful API:
 
 ---
 
-## ⚖️ License
+## 🚫 License & Usage
 
-Copyright © 2024 Mohsin Khan. Distributed under the **MIT License**.
+**Copyright © 2024 Mohsin Khan. All rights reserved.**
+
+This repository and its contents are proprietary. No permission is granted to use, copy, modify, or distribute this code or the associated machine learning models without explicit written consent from the author.
 
 > [!IMPORTANT]  
 > This application is a clinical support tool and is **not** a substitute for professional medical diagnosis or treatment.
