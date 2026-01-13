@@ -11,164 +11,189 @@ pinned: false
 # HeartCare Risk Prediction System
 
 ![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.100.0+-009688?style=for-the-badge&logo=fastapi&logoColor=white)
-![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.3+-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.109.0+-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.4.0+-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-An end-to-end machine learning–based web application for predicting cardiovascular disease risk using lifestyle and health attributes. This system provides a production-ready API and a modern web interface to help users assess their heart health through a series of clinically relevant questions.
+An end-to-end, production-grade machine learning application designed to predict cardiovascular disease risk using advanced health analytics. This system integrates a high-performance FastAPI backend with a modern, responsive web interface, providing real-time diagnostic insights based on clinical lifestyle parameters.
 
 ---
 
 ## 📋 Table of Contents
 - [Project Overview](#-project-overview)
-- [Key Features](#-key-features)
-- [Technology Stack](#-technology-stack)
-- [Installation Instructions](#-installation-instructions)
-- [Usage Guide](#-usage-guide)
-- [Project Structure](#-project-structure)
-- [Contribution Guidelines](#-contribution-guidelines)
+- [System Architecture](#-system-architecture)
+- [Technical Stack](#-technical-stack)
+- [Project Evolution (Step-by-Step)](#-project-evolution-step-by-step)
+- [File & Component Contribution](#-file--component-contribution)
+- [Data Engineering & Features](#-data-engineering--features)
+- [Installation & Deployment](#-installation--deployment)
+- [API Documentation](#-api-documentation)
 - [License](#-license)
 
 ---
 
 ## 🌟 Project Overview
 
-The **HeartCare Risk Prediction System** is designed to provide quick and accessible heart disease risk assessments. By processing variables such as age, lifestyle habits (smoking, alcohol, diet), and medical history (diabetes, checkups), the underlying machine learning model predicts the probability of heart-related complications.
+The **HeartCare Risk Prediction System** addresses the critical need for accessible preliminary cardiovascular screening. By leveraging a **Random Forest Classifier** trained on comprehensive health datasets, the application identifies patterns in a user's health profile (e.g., lifestyle, BMI, medical history) to estimate the probability of heart disease.
 
-### Key Capabilities
-- **Real-time Prediction**: Immediate risk assessment using a trained Random Forest model.
-- **Data Validation**: Strict input checking via Pydantic schemas to ensure diagnostic accuracy.
-- **User-Friendly UI**: Modern, glassmorphism-inspired design for a premium user experience.
-- **RESTful API**: Fully documented API endpoints for integration with other healthcare systems.
-
----
-
-## 🛠 Technology Stack
-
-| Component | Technology |
-| :--- | :--- |
-| **Backend Framework** | [FastAPI](https://fastapi.tiangolo.com/) |
-| **Machine Learning** | [Scikit-learn](https://scikit-learn.org/) (Random Forest) |
-| **Data Validation** | [Pydantic](https://docs.pydantic.dev/) |
-| **Frontend** | HTML5, Vanilla CSS, JavaScript |
-| **Server** | Uvicorn (ASGI) |
-| **Large File Storage** | [Git LFS](https://git-lfs.com/) |
+### Core Objectives
+- **Accessibility**: Provide a non-invasive, quick heart health assessment tool.
+- **Precision**: Utilize scikit-learn's robust ensemble learning for high-accuracy predictions.
+- **Scalability**: Deployable via Docker with built-in monitoring via Prometheus.
+- **Security**: Strict input validation and data sanitization using Pydantic.
 
 ---
 
-## 📥 Installation Instructions
+## 🏗 System Architecture
 
-### System Requirements
-- **OS**: Windows 10/11, macOS, or Linux
-- **Python**: 3.9 or higher
-- **Disk Space**: ~500MB (including the ML model)
-- **RAM**: 2GB minimum
-
-### Step-by-Step Setup
-
-1. **Clone the Repository** (Ensure Git LFS is installed):
-   ```bash
-   git clone https://github.com/mohsinkp02/HeartCare-Risk-Prediction-System.git
-   cd HeartCare-Risk-Prediction-System
-   ```
-
-2. **Initialize Git LFS and Pull Model**:
-   ```bash
-   git lfs install
-   git lfs pull
-   ```
-
-3. **Create a Virtual Environment**:
-   ```bash
-   # Windows
-   python -m venv .venv
-   .venv\Scripts\activate
-
-   # macOS/Linux
-   python3 -m venv .venv
-   source .venv/bin/activate
-   ```
-
-4. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
----
-
-## 🚀 Usage Guide
-
-### Running the Application
-
-To launch the web server and application, execute the runner script:
-
-```bash
-python run_app.py
-```
-
-- **Website**: Access at [http://localhost:8000](http://localhost:8000)
-- **API Documentation**: Interactive Swagger docs at [http://localhost:8000/docs](http://localhost:8000/docs)
-
-### Configuration Options
-
-| Environment Variable | Default | Description |
-| :--- | :--- | :--- |
-| `APP_NAME` | HeartCare | The display name of the application |
-| `API_V1_STR` | /api/v1 | The prefix for all API endpoints |
-| `HOST` | 0.0.0.0 | Network interface to bind to |
-| `PORT` | 8000 | Port number for the web server |
-
----
-
-## 📂 Project Structure
+The following diagram illustrates the data flow and interaction between various system layers:
 
 ```mermaid
 graph TD
-    Root[HeartCare-Risk-Prediction-System/] --> App[app/]
-    Root --> Config[.gitattributes, .gitignore, README.md, requirements.txt]
-    Root --> Runner[run_app.py]
+    User((User)) <--> UI[Frontend: HTML/CSS/JS]
+    UI <--> FastAPI[Backend: FastAPI Service]
     
-    App --> API[api/ - Routes & Endpoints]
-    App --> Core[core/ - App Config]
-    App --> Models[models/ - Trained .pkl Model]
-    App --> Schemas[schemas/ - Pydantic Validation]
-    App --> Services[services/ - Business Logic]
-    App --> Static[static/ - CSS, JS, Images]
-    App --> Templates[templates/ - HTML Files]
-    App --> Main[main.py - Entry Point]
+    subgraph "Internal Logic"
+        FastAPI --> Schemas[Pydantic Schemas: Data Validation]
+        FastAPI --> Services[Preprocessing Service: Normalization]
+        Services --> Model[Model Service: Random Forest Inference]
+        Model --> PKL[joblib: heart_disease_model.pkl]
+    end
+    
+    subgraph "Infrastructure"
+        FastAPI --> Prometheus[Prometheus: Metrics Monitoring]
+        FastAPI --> Static[Static Files: UI Assets]
+    end
 ```
 
 ---
 
-## 🤝 Contribution Guidelines
+## 🛠 Technical Stack
 
-We welcome contributions to HeartCare! To contribute, follow these steps:
+### Backend & Core
+- **Language**: Python 3.9+ for its extensive data science ecosystem.
+- **Framework**: **FastAPI** – High-performance, asynchronous web framework.
+- **Validation**: **Pydantic v2** – Ensuring strict type checking and data integrity.
+- **Serialization**: **Joblib** – Optimized for saving/loading large Scikit-learn models.
 
-### Reporting Issues
-- Use the **GitHub Issues** tab to report bugs or request features.
-- Provide a clear description and steps to reproduce the issue.
+### Machine Learning
+- **Model**: **Random Forest Classifier** – An ensemble technique that reduces overfitting and improves generalization.
+- **Libraries**: **Scikit-learn** for modeling, **Pandas** and **NumPy** for data manipulation.
 
-### Pull Request Process
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/AmazingFeature`).
-3. Commit your changes following our **Coding Standards** (PEP 8 for Python).
-4. Push to the branch.
-5. Open a Pull Request for review.
+### Frontend & UI
+- **Design**: Modern **Glassmorphism** aesthetic using Vanilla CSS3.
+- **Logic**: Vanilla JavaScript for asynchronous API communication (Fetch API).
+- **Templates**: **Jinja2** for server-side dynamic HTML rendering.
 
-### Coding Standards
-- Follow [PEP 8](https://peps.python.org/pep-0008/) for style.
-- Include docstrings for all new functions and classes.
-- Ensure all tests pass before submitting.
+### DevOps & Infrastructure
+- **Containerization**: **Docker** for environment consistency and portability.
+- **Monitoring**: **Prometheus Instrumentation** for real-time API performance tracking.
+- **Version Control**: Git with **LFS (Large File Storage)** for binary model assets.
+
+---
+
+## 🚀 Project Evolution (Step-by-Step)
+
+The development of the HeartCare system followed a structured engineering lifecycle:
+
+1.  **Requirement Analysis**: Identified 18 critical health parameters based on clinical relevance for cardiovascular risk.
+2.  **Dataset Preparation**: Cleaned and formatted health data, handling missing values and categorical encoding.
+3.  **Model Engineering**: Trained a Random Forest model, optimizing hyperparameters for the best balance between precision and recall.
+4.  **Inference Layer Development**: Created the `ModelService` to handle `joblib` loading and probability-to-risk-level mapping.
+5.  **API Construction**: Built RESTful endpoints using FastAPI, ensuring all inputs are validated against strict schemas.
+6.  **UI/UX Implementation**: Developed a responsive frontend that guides users through a multi-step assessment form.
+7.  **System Integration**: Connected the frontend `fetch` calls to the backend prediction engine.
+8.  **Vulnerability & Accuracy Testing**: Implemented a testing suite to verify that UI inputs correctly map to model features.
+9.  **Containerization**: Authored the `Dockerfile` and `.dockerignore` to package the app for cross-platform deployment.
+
+---
+
+## 📂 File & Component Contribution
+
+| File/Directory | Role & Contribution |
+| :--- | :--- |
+| `app/main.py` | The **Entry Point**. Configures FastAPI, mounts static files, and initializes the application lifespan. |
+| `app/api/routes.py` | **Routing Layer**. Defines API endpoints (`/predict`, `/health`) and handles request/response logic. |
+| `app/services/preprocessing.py` | **Data Transformation**. Contains the logic for Min-Max scaling and categorical-to-numeric mapping. |
+| `app/services/model_service.py` | **Inference Engine**. Loads the `.pkl` model and executes predictions using processed vectors. |
+| `app/schemas/prediction.py` | **Data Integrity**. Defines the structure and constraints for all patient data inputs using Pydantic. |
+| `app/models/` | **Storage**. Holds the serialized Random Forest model (`heart_disease_model.pkl`). |
+| `app/templates/` | **View Layer**. Contains the HTML files (`index.html`, `calculate.html`) for the user interface. |
+| `run_app.py` | **Utility Bootstrapper**. Simplifies local execution by checking dependencies and launching the server. |
+| `Dockerfile` | **Packaging**. Instructions for building a light-weight Linux-based container for the app. |
+
+---
+
+## 📊 Data Engineering & Features
+
+The system processes **18 specific features** to generate a risk assessment. Each input is normalized to a range of `[0.0, 1.0]` before being passed to the model.
+
+### Process Workflow
+```mermaid
+graph LR
+    Input[Raw User Input] --> Logic[Preprocessing Logic]
+    Logic --> Scale[Min-Max Scaling]
+    Scale --> Vector[18-Feature Vector]
+    Vector --> RF[Random Forest]
+    RF --> Result[Probability Score]
+    Result --> Map[Risk Level Mapping]
+```
+
+### Feature Categories
+- **Demographics**: Age, Sex, Height, Weight (BMI calc).
+- **Lifestyle**: Smoking, Alcohol consumption, Exercise habits.
+- **Nutrition**: Fruit, Green Vegetables, and Fried Potato intake.
+- **Medical History**: Diabetes, Arthritis, Skin/Other Cancer, Depression status.
+
+---
+
+## 📥 Installation & Deployment
+
+### Local Setup
+1. **Clone & LFS**:
+   ```bash
+   git clone https://github.com/mohsinkp02/HeartCare-Risk-Prediction-System.git
+   cd HeartCare-Risk-Prediction-System
+   git lfs install && git lfs pull
+   ```
+2. **Execute Runner**:
+   ```bash
+   python run_app.py
+   ```
+
+### Docker Deployment
+```bash
+docker build -t heartcare-app .
+docker run -p 8000:8000 heartcare-app
+```
+
+---
+
+## 🔌 API Documentation
+
+The system provides a fully documented RESTful API:
+- **Swagger UI**: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **Primary Endpoint**: `POST /api/v1/predict`
+  
+**Example Payload:**
+```json
+{
+  "General_Health": "Very Good",
+  "Checkup": "Within 1 year",
+  "Exercise": "1",
+  "Diabetes": "No",
+  "Age": 45,
+  "BMI": 24.5
+  ...
+}
+```
 
 ---
 
 ## ⚖️ License
 
-Copyright © 2024 Mohsin Khan.
+Copyright © 2024 Mohsin Khan. Distributed under the **MIT License**.
 
-Distributed under the **MIT License**. See `LICENSE` for more information.
-
----
-
-> [!NOTE]  
-> This system is intended for informational purposes and should not replace professional medical advice.
+> [!IMPORTANT]  
+> This application is a clinical support tool and is **not** a substitute for professional medical diagnosis or treatment.
